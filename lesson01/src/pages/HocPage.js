@@ -21,8 +21,6 @@ class Child2 extends Component {
   }
 }
 
-export default HocPage;
-
 const Foo = foo(Child);
 
 class HocPage extends Component {
