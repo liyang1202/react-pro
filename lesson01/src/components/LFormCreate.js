@@ -4,23 +4,28 @@ export default function LFormCreate(Cmp) {
   return class extends Component {
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = { errors: {} };
       this.options = {};
     }
 
     handleChange = (e) => {
       let { name, value } = e.target;
-      this.setState({ [name]: value });
+      this.setState({ ...this.state, [name]: value });
     };
 
     getFieldDecorator = (field, option) => {
       this.options[field] = option;
       return (InputCmp) => {
-        return React.cloneElement(InputCmp, {
-          name: field,
-          value: this.setState[field] || "",
-          onChange: this.handleChange,
-        });
+        return (
+          <div>
+            {React.cloneElement(InputCmp, {
+              name: field,
+              value: this.setState[field] || "",
+              onChange: this.handleChange,
+            })}
+            <p className="red">{this.state.errors[field]}</p>
+          </div>
+        );
       };
     };
 
@@ -37,9 +42,9 @@ export default function LFormCreate(Cmp) {
       const state = { ...this.state };
       for (let field in this.options) {
         if (state[field] === undefined) {
-          errors[field] = "error";
+          errors[field] = this.options[field].rules[0].message;
         }
-        console.log("item", field);
+        this.setState({ ...state, errors });
       }
 
       if (JSON.stringify(errors) === "{}") {

@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       {/* <HocPage/> */}
       {/* <Formpage/> */}
-      {/* <MyFormPage/> */}
+      <MyFormPage/>
       {/* <DialogPage/> */}
     </div>
   );
